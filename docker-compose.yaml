@@ -4,17 +4,12 @@ services:
     container_name: fastify_opti_app
     ports:
       - "3025:3025"
+    network_mode: "host"
     environment:
       PORT: 3025
-      DB_HOST: host.docker.internal
+      DB_HOST: 127.0.0.1
+      DB_PORT: 5432
       DB_USER: postgres
       DB_PASSWORD: psql
       DB_NAME: mydb
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    networks:
-      - monitoring
-      
-networks:
-  monitoring:
-    external: true
+
