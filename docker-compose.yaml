@@ -5,10 +5,10 @@ services:
     ports:
       - "3025:3025"
     environment:
-      PORT: 3025
-      DB_HOST: db
+      PORT: 3000
+      DB_HOST: host.docker.internal
       DB_USER: postgres
-      DB_PASSWORD: postgres
+      DB_PASSWORD: psql
       DB_NAME: mydb
     networks:
       - monitoring
