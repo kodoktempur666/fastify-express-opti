@@ -25,12 +25,12 @@ export const createCheckoutController = async (request, reply) => {
 export const getCheckoutController = async (request, reply) => {
   try {
     const { id } = request.params;
-    const cacheKey = `checkout:${id}`;
+    // const cacheKey = `checkout:${id}`;
 
-    const cached = await connection.get(cacheKey);
-    if (cached) {
-      return handleResponse(reply, 200, "From cache", JSON.parse(cached));
-    }
+    // const cached = await connection.get(cacheKey);
+    // if (cached) {
+    //   return handleResponse(reply, 200, "From cache", JSON.parse(cached));
+    // }
 
     const data = await getCheckout(id);
 
@@ -52,7 +52,7 @@ export const editCheckoutController = async (request, reply) => {
     id,
   });
 
-  await connection.del(`checkout:${id}`);
+  // await connection.del(`checkout:${id}`);
 
   return reply.code(202).send({
     success: true,
@@ -68,7 +68,7 @@ export const patchCheckoutController = async (request, reply) => {
     id,
   });
 
-  await connection.del(`checkout:${id}`);
+  // await connection.del(`checkout:${id}`);
 
   return reply.code(202).send({
     success: true,
