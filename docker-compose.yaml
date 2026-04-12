@@ -1,7 +1,35 @@
 services:
-  app:
-    build: ./app
-    container_name: fastify_opti_app
+  express-opti-app:
+    build: ./express
+    container_name: express_opti_app
+    ports:
+      - "3020:3020"
+    network_mode: "host"
+    environment:
+      PORT: 3020
+      DB_HOST: 127.0.0.1
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: psql
+      DB_NAME: mydb
+
+  worker-post-grpc:
+    build: ./express
+    container_name: worker-post-grpc
+    image: worker-post-grpc:latest
+    network_mode: "host"
+    command: node src/worker/checkoutPost.worker.js
+    environment:
+      DB_HOST: 127.0.0.1
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: psql
+      DB_NAME: mydb
+  
+
+  fastify-opti-app:
+    build: ./fastify
+    container_name: fastify-opti-app
     ports:
       - "3025:3025"
     network_mode: "host"
@@ -13,10 +41,10 @@ services:
       DB_PASSWORD: psql
       DB_NAME: mydb
 
-  worker-post-nogrpc:
-    build: ./app
-    container_name: worker_post_nogrpc
-    image: worker-post-nogrpc:latest
+  worker-post:
+    build: ./fastify
+    container_name: worker-post
+    image: worker-post:latest
     network_mode: "host"
     command: node src/worker/checkoutPost.worker.js
     environment:
@@ -26,30 +54,19 @@ services:
       DB_PASSWORD: psql
       DB_NAME: mydb
   
-  worker-put-nogrpc:
-    build: ./app
-    container_name: worker_put_nogrpc
-    image: worker-patch-nogrpc:latest
+  grpc-server:
+    build: ./grpc-server
+    image: grpc-server:latest
+    container_name: grpc_server
+    ports:
+      - "50051:50051"
     network_mode: "host"
-    command: node src/worker/checkoutPut.worker.js
     environment:
       DB_HOST: 127.0.0.1
       DB_PORT: 5432
       DB_USER: postgres
       DB_PASSWORD: psql
       DB_NAME: mydb
-  
-  worker-patch-nogrpc:
-    build: ./app
-    container_name: worker_patch_nogrpc
-    image: worker-patch-nogrpc:latest
-    network_mode: "host"
-    command: node src/worker/checkoutPatch.worker.js
-    environment:
-      DB_HOST: 127.0.0.1
-      DB_PORT: 5432
-      DB_USER: postgres
-      DB_PASSWORD: psql
-      DB_NAME: mydb
+
 
 

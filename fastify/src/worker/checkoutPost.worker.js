@@ -56,12 +56,10 @@ const createCheckoutWorker = new Worker(
   }
 );
 
-// log sukses
 createCheckoutWorker.on("completed", (job, result) => {
   console.log("Create checkout success:", result);
 });
 
-// log error
 createCheckoutWorker.on("failed", (job, err) => {
   console.error("Create checkout failed:", err.message);
 });
