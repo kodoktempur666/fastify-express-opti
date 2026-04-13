@@ -14,6 +14,7 @@ const createCheckoutWorker = new Worker(
          RETURNING *`,
         [name, amount, item]
       );
+      await new Promise((resolve) => setTimeout(resolve, 30));
 
       return result.rows[0];
     } catch (err) {
@@ -26,12 +27,12 @@ const createCheckoutWorker = new Worker(
   }
 );
 
-createCheckoutWorker.on("completed", (job, result) => {
-  console.log("Create checkout success:", result);
-});
+// createCheckoutWorker.on("completed", (job, result) => {
+//   console.log("Create checkout success:", result);
+// });
 
-createCheckoutWorker.on("failed", (job, err) => {
-  console.error("Create checkout failed:", err.message);
-});
+// createCheckoutWorker.on("failed", (job, err) => {
+//   console.error("Create checkout failed:", err.message);
+// });
 
 export default createCheckoutWorker;

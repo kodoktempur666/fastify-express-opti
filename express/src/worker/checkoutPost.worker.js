@@ -18,13 +18,13 @@ const createCheckoutWorker = new Worker(
   }
 );
 
-createCheckoutWorker.on("completed", () => {
-  console.log("Create checkout job completed");
-});
+// createCheckoutWorker.on("completed", () => {
+//   console.log("Create checkout job completed");
+// });
 
-createCheckoutWorker.on("failed", (job, err) => {
-  console.error("Create checkout failed:", err.message);
-});
+// createCheckoutWorker.on("failed", (job, err) => {
+//   console.error("Create checkout failed:", err.message);
+// });
 
 export default createCheckoutWorker;
 
