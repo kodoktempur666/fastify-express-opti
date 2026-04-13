@@ -1,5 +1,5 @@
 import { Worker } from "bullmq";
-import redis from "../config/redis.js";
+import redisWorker from "../config/redis.worker.js";
 import client from "../config/grpc.js";
 
 const createCheckoutWorker = new Worker(
@@ -13,8 +13,8 @@ const createCheckoutWorker = new Worker(
     });
   },
   {
-    connection: redis,
-    concurrency: 10,
+    connection: redisWorker,
+    concurrency: 20,
   }
 );
 
