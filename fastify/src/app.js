@@ -1,6 +1,6 @@
 import Fastify from "fastify";
 import cors from "./plugins/cors.js";
-import routes from "./routes/checkout.routes.js";
+import routes from "./routes/checkout.route.js";
 import { httpRequestDuration, register } from "./metrics.js";
 
 const app = Fastify({
