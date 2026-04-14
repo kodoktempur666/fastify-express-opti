@@ -14,7 +14,7 @@ const createCheckoutWorker = new Worker(
          RETURNING *`,
         [name, amount, item]
       );
-      await new Promise((resolve) => setTimeout(resolve, 30));
+      // await new Promise((resolve) => setTimeout(resolve, 30));
 
       return result.rows[0];
     } catch (err) {
