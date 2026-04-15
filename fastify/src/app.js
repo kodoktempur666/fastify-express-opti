@@ -9,6 +9,10 @@ const app = Fastify({
 
 await app.register(cors);
 
+app.addHook("onRequest", async (request, reply) => {
+  request.startTime = process.hrtime();
+});
+
 app.addHook("onResponse", async (request, reply) => {
   const diff = process.hrtime(request.startTime);
   const duration = diff[0] + diff[1] / 1e9;
