@@ -5,7 +5,7 @@ import { getCartById, updateCartStatus } from "../models/cart.model.js";
 import { getCartItemsByCartId } from "../models/cartItem.model.js";
 import { insertOrderItem } from "../models/orderItem.model.js";
 import { stockQueue } from "../queues/stock.queue.js";
-
+import { createPaymentMock } from '../models/paymentMock.model.js';
 
 const mockPayment = async (orderId, totalAmount) => {
   const delay = Math.floor(Math.random() * 40) + 10;
