@@ -37,8 +37,14 @@ services:
     image: cart-worker:latest
     depends_on: 
       - express-opti-app
-    # network_mode: "host"
+    network_mode: "host"
     command: node src/workers/cart.worker.js
+    environment:
+      DB_HOST: 127.0.0.1
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: psql
+      DB_NAME: mydb
   
   checkout-worker:
     build: ./express
@@ -46,8 +52,15 @@ services:
     image: checkout-worker:latest
     depends_on: 
       - express-opti-app
-    # network_mode: "host"
+    network_mode: "host"
     command: node src/workers/checkout.worker.js
+    environment:
+      DB_HOST: 127.0.0.1
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: psql
+      DB_NAME: mydb
+  
 
   email-worker:
     build: ./express
@@ -55,7 +68,7 @@ services:
     image: email-worker:latest
     depends_on:
       - express-opti-app
-    # network_mode: "host"
+    network_mode: "host"
     command: node src/workers/email.worker.js
 
   stock-worker:
@@ -64,6 +77,12 @@ services:
     image: stock-worker:latest
     depends_on: 
       - express-opti-app
-    # network_mode: "host"
+    network_mode: "host"
     command: node src/workers/stock.worker.js
-
+    environment:
+      DB_HOST: 127.0.0.1
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: psql
+      DB_NAME: mydb
+  
