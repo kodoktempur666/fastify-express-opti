@@ -4,8 +4,20 @@ import { getCartById, updateCartStatus } from "../models/cart.model.js";
 
 import { getCartItemsByCartId } from "../models/cartItem.model.js";
 import { insertOrderItem } from "../models/orderItem.model.js";
-import { stockQueue } from "../queues/stock.queue.js";
+
 import { createPaymentMock } from '../models/paymentMock.model.js';
+import { Queue } from "bullmq";
+import redis from "../config/redis.js";
+
+const stockQueue = new Queue("stockQueue", {
+  connection: redis,
+  defaultJobOptions: {
+    attempts: 3,
+    backoff: { type: "exponential", delay: 1000 },
+    removeOnComplete: true,
+    removeOnFail: false,
+  },
+});
 
 const mockPayment = async (orderId, totalAmount) => {
   const delay = Math.floor(Math.random() * 40) + 10;
