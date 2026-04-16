@@ -6,6 +6,8 @@ new Worker(
   "checkoutQueue",
   async (job) => {
     await processCheckout(job.data);
+
+    console.log('checkout success')
   },
   {
     connection: redis,

@@ -6,6 +6,8 @@ new Worker(
   "cartQueue",
   async (job) => {
     await processCartItem(job.data);
+
+    console.log('item added')
   },
   {
     connection: redis,
