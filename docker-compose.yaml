@@ -37,7 +37,7 @@ services:
     image: cart-worker:latest
     depends_on: 
       - express-opti-app
-    network_mode: "host"
+    # network_mode: "host"
     command: node src/workers/cart.worker.js
   
   checkout-worker:
@@ -46,7 +46,7 @@ services:
     image: checkout-worker:latest
     depends_on: 
       - express-opti-app
-    network_mode: "host"
+    # network_mode: "host"
     command: node src/workers/checkout.worker.js
 
   email-worker:
@@ -55,7 +55,7 @@ services:
     image: email-worker:latest
     depends_on:
       - express-opti-app
-    network_mode: "host"
+    # network_mode: "host"
     command: node src/workers/email.worker.js
 
   stock-worker:
@@ -64,6 +64,6 @@ services:
     image: stock-worker:latest
     depends_on: 
       - express-opti-app
-    network_mode: "host"
+    # network_mode: "host"
     command: node src/workers/stock.worker.js
 
