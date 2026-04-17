@@ -39,28 +39,26 @@ const mockPayment = async (orderId, totalAmount) => {
 
 
 export const processCheckout = async ({ cartId, userId }) => {
-  console.log("🚀 Start checkout:", { cartId, userId });
+
 
   const cart = await getCartById(cartId);
 
   if (!cart) {
-    console.log("❌ Cart not found");
+    console.log("Cart not found");
     return;
   }
 
   if (cart.status !== "active") {
-    console.log("❌ Cart not active:", cart.status);
+    console.log("Cart not active:", cart.status);
     return;
   }
 
   const items = await getCartItemsByCartId(cartId);
 
   if (items.length === 0) {
-    console.log("❌ Cart empty");
+    console.log("Cart empty");
     return;
   }
-
-  console.log("✅ Items found:", items.length);
 
   let total = 0;
   for (const item of items) {
@@ -69,7 +67,6 @@ export const processCheckout = async ({ cartId, userId }) => {
 
   const order = await createOrder(userId, cartId, total);
 
-  console.log("✅ Order created:", order.id);
 
   const paymentSuccess = await mockPayment(order.id, total);
 
@@ -95,6 +92,6 @@ export const processCheckout = async ({ cartId, userId }) => {
     });
   }
 
-  console.log("🔥 Checkout success:", order.id);
+  console.log("Checkout success:", order.id);
 };
 
