@@ -12,7 +12,7 @@ new Worker(
   },
   {
     connection: redis,
-    concurrency: 10,
+    concurrency: 20,
     lockDuration: 30000,
   }
 );
