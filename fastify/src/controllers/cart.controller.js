@@ -11,13 +11,11 @@ import {
 } from "../models/cartItem.model.js";
 import { getProductPrice } from "../models/product.model.js";
 import { handleResponse } from "../utils/response.js";
-import { cartQueue } from "../queues/cart.queue.js";
 
 export const createCartHandler = async (request, reply) => {
-  const userId = request.userId || null;
 
   try {
-    const cart = await createCart(userId, null);
+    const cart = await createCart();
     return handleResponse(reply, 201, "Cart created", { cartId: cart.id });
   } catch (err) {
     reply.status(500).send({ message: err.message });
@@ -27,11 +25,22 @@ export const createCartHandler = async (request, reply) => {
 export const addCartItem = async (request, reply) => {
   const { cartId } = request.params;
   const { productId, quantity } = request.body;
-
-  await cartQueue.add("addItem", { cartId, productId, quantity });
-
-  return handleResponse(reply, 202, "Item queued");
+  try {
+    const price = await getProductPrice(productId);
+    if (!price) return handleResponse(reply, 404, 'Product not found');
+    const existing = await findCartItem(cartId, productId);
+    if (existing) {
+      await updateCartItemQuantity(existing.id, existing.quantity + quantity);
+    } else {
+      await insertCartItem(cartId, productId, quantity, price);
+    }
+    await updateCartTimestamp(cartId);
+    handleResponse(reply, 200, 'Item added to cart');
+  } catch (err) {
+    reply.status(500).send({ status: 500, message: err.message });
+  }
 };
+
 
 
 export const updateCartItem = async (request, reply) => {

@@ -5,11 +5,11 @@ import { checkoutQueue } from "../queues/checkout.queue.js";
 
 export const checkout = async (request, reply) => {
   const { cartId } = request.params;
-  const userId = request.userId;
+
 
   await checkoutQueue.add(
     "checkout",
-    { cartId, userId },
+    { cartId},
     { jobId: `checkout-${cartId}` } // idempotency
   );
 
